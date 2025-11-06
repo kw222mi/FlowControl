@@ -18,7 +18,7 @@ while (running)
     {
         case "1":
             Console.WriteLine("Du valde: Ungdom eller pensionär");
-            // TODO: anropa metoden för menyval 1
+            getAgeGroup();
             break;
 
         case "2":
@@ -50,5 +50,36 @@ while (running)
     {
         Console.WriteLine("\nTryck på valfri tangent för att fortsätta...");
         Console.ReadKey();
+    }
+}
+
+static void GetAgeGroup()
+{
+    Console.Write("Ange din ålder: ");
+    string input = Console.ReadLine();
+
+    // Försök tolka till ett heltal
+    if (int.TryParse(input, out int age))
+    {
+        if (age < 5 || age > 100)
+        {
+            Console.WriteLine("Gratis!");
+        }
+        else if (age < 20)
+        {
+            Console.WriteLine("Ungdomspris: 80 kr");
+        }
+        else if (age >= 65)
+        {
+            Console.WriteLine("Pensionärspris: 90 kr");
+        }
+        else
+        {
+            Console.WriteLine("Standardpris: 120 kr");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Ogiltig inmatning, försök igen!");
     }
 }
