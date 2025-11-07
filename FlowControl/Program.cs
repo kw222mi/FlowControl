@@ -28,7 +28,7 @@ while (running)
 
         case "3":
             Console.WriteLine("Du valde: Upprepa tio gånger");
-            repeatText();
+            RepeatText();
             break;
 
         case "4":
@@ -101,8 +101,26 @@ static void GroupPrice()
     Console.WriteLine($"Totalt: {total} kr");
 }
 
-static void repeatText()
+static void RepeatText()
 {
+    Console.WriteLine("Ange ett ord/text som du vill upprepa: ");
+    string repetText = Console.ReadLine();
+    Console.WriteLine("\nResultat:");
+    int numberOfTimes = 10;
+
+    for (int i = 0; i < numberOfTimes; i++)
+    {
+        // write the text
+        Console.Write($"{i + 1}. {repetText}");
+
+        // add comma if it is not the last word
+        if (i < numberOfTimes-1)
+        {
+            Console.Write(", ");
+        }
+    
+    }
+    Console.WriteLine();
 
 }
 static int ReadInt(string prompt, int? min = null, int? max = null)
