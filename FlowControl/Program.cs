@@ -18,17 +18,17 @@ while (running)
     {
         case "1":
             Console.WriteLine("Du valde: Ungdom eller pensionär");
-            getAgeGroup();
+            GetAgeGroup();
             break;
 
         case "2":
             Console.WriteLine("Du valde: Grupppris");
-            // TODO: anropa metoden för menyval 2
+            GroupPrice();
             break;
 
         case "3":
             Console.WriteLine("Du valde: Upprepa tio gånger");
-            // TODO: anropa metoden för menyval 3
+            repeatText();
             break;
 
         case "4":
@@ -55,31 +55,88 @@ while (running)
 
 static void GetAgeGroup()
 {
-    Console.Write("Ange din ålder: ");
-    string input = Console.ReadLine();
+    Console.WriteLine("=== Ungdom eller pensionär ===");
 
-    // Försök tolka till ett heltal
-    if (int.TryParse(input, out int age))
+    int age = ReadInt("Ange din ålder: ", min: 0);
+    int price = GetTicketPrice(age);
+
+    // View the result based on age and price 
+    if (price == 0)
     {
-        if (age < 5 || age > 100)
-        {
-            Console.WriteLine("Gratis!");
-        }
-        else if (age < 20)
-        {
-            Console.WriteLine("Ungdomspris: 80 kr");
-        }
-        else if (age >= 65)
-        {
-            Console.WriteLine("Pensionärspris: 90 kr");
-        }
-        else
-        {
-            Console.WriteLine("Standardpris: 120 kr");
-        }
+        Console.WriteLine("Gratis!");
+    }
+    else if (age < 20)
+    {
+        Console.WriteLine($"Ungdomspris: {price} kr");
+    }
+    else if (age >= 65)
+    {
+        Console.WriteLine($"Pensionärspris: {price} kr");
     }
     else
     {
-        Console.WriteLine("Ogiltig inmatning, försök igen!");
+        Console.WriteLine($"Standardpris: {price} kr");
     }
+}
+
+
+static void GroupPrice()
+{
+    Console.WriteLine("=== Grupppris ===");
+
+    int count = ReadInt("Hur många personer? ", min: 1);
+
+    int total = 0;
+
+    for (int i = 1; i <= count; i++)
+    {
+        int age = ReadInt($"Ange ålder för person {i}: ", min: 0);
+        int price = GetTicketPrice(age);
+        total += price;
+
+        Console.WriteLine($"Person {i}: {price} kr");
+    }
+
+    Console.WriteLine($"\nAntal personer: {count}");
+    Console.WriteLine($"Totalt: {total} kr");
+}
+
+static void repeatText()
+{
+
+}
+static int ReadInt(string prompt, int? min = null, int? max = null)
+{
+    while (true)
+    {
+        Console.Write(prompt);
+        string input = Console.ReadLine();
+
+        if (!int.TryParse(input, out int value))
+        {
+            Console.WriteLine("Ogiltig inmatning. Skriv ett heltal.");
+            continue;
+        }
+
+        if (min.HasValue && value < min.Value)
+        {
+            Console.WriteLine($"Talet måste vara minst {min.Value}.");
+            continue;
+        }
+        if (max.HasValue && value > max.Value)
+        {
+            Console.WriteLine($"Talet får vara högst {max.Value}.");
+            continue;
+        }
+
+        return value;
+    }
+}
+
+static int GetTicketPrice(int age)
+{
+    if (age < 5 || age > 100) return 0;  
+    if (age < 20) return 80;
+    if (age >= 65) return 90;
+    return 120;
 }
