@@ -1,4 +1,33 @@
-﻿// Main program loop flag
+﻿
+
+using FlowControl.Presentation;
+using FlowControl.Application;
+using FlowControl.Domain;
+
+namespace FlowControl;
+class Program
+{
+    static void Main()
+    {
+        var io = new ConsoleIO();
+
+        var actions = new IMenuAction[]
+        {
+            new AgePricingAction(io),
+            new GroupPricingAction(io),
+            new RepeatTextAction(io),
+            new ThirdWordAction(io),
+        };
+
+        var menu = new Menu(io, actions);
+        menu.Run();
+    }
+}
+
+/*
+
+
+// Main program loop flag
 bool running = true;
 
 while (running)
@@ -90,82 +119,10 @@ static void GetAgeGroup()
     }
 }
 
-// --- Menu option 2: Group pricing (sum across several ages) ---
-static void GroupPrice()
-{
-    Console.WriteLine("=== Grupppris ===");
 
-    // Ask how many people; must be at least 1
-    int count = ReadInt("Hur många personer? ", min: 1);
 
-    int total = 0; // accumulator for total price
 
-    // Loop over each person and collect their age
-    for (int i = 1; i <= count; i++)
-    {
-        int age = ReadInt($"Ange ålder för person {i}: ", min: 0);
-        int price = GetTicketPrice(age);
-        total += price;
 
-        Console.WriteLine($"Person {i}: {price} kr");
-    }
-
-    // Summary output
-    Console.WriteLine($"\nAntal personer: {count}");
-    Console.WriteLine($"Totalt: {total} kr");
-}
-
-// --- Menu option 3: Repeat an input string 10 times on the same line ---
-static void RepeatText()
-{
-    Console.WriteLine("Ange ett ord/text som du vill upprepa: ");
-    string repetText = Console.ReadLine();
-
-    Console.WriteLine("\nResultat:");
-    int numberOfTimes = 10;
-
-    for (int i = 0; i < numberOfTimes; i++)
-    {
-        // Write the numbered repetition without line break
-        Console.Write($"{i + 1}. {repetText}");
-
-        // Add a comma and space between items, but not after the last one
-        if (i < numberOfTimes - 1)
-        {
-            Console.Write(", ");
-        }
-    }
-
-    // Final line break so subsequent output starts on a new line
-    Console.WriteLine();
-}
-
-// --- Menu option 4: Read a sentence and print the third word ---
-// Re-prompts until the user provides at least three words.
-static void TheThirdWord()
-{
-    while (true)
-    {
-        Console.WriteLine("Skriv en mening (minst tre ord): ");
-
-        // Read full line, guard against null, and trim extra spaces
-        string input = (Console.ReadLine() ?? string.Empty).Trim();
-
-        // Split on spaces and discard empty entries (handles multiple spaces)
-        var words = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-        // Validate we have at least three words before accessing index 2
-        if (words.Length < 3)
-        {
-            Console.WriteLine("Meningen var för kort, prova igen: ");
-            continue; // ask again
-        }
-
-        // Third word is at index 2 (0-based indexing)
-        Console.WriteLine(words[2]);
-        break; // success -> leave the loop
-    }
-}
 
 // --- Helper: Robust integer input reader with optional bounds ---
 static int ReadInt(string prompt, int? min = null, int? max = null)
@@ -199,18 +156,6 @@ static int ReadInt(string prompt, int? min = null, int? max = null)
         // Valid value
         return value;
     }
-}
+}*/
 
-// --- Helper: Central ticket price rules (single source of truth) ---
-static int GetTicketPrice(int age)
-{
-    // Optional bonus rule: free for <5 or >100
-    if (age < 5 || age > 100) return 0;
 
-    // Base rules
-    if (age < 20) return 80;
-    if (age >= 65) return 90;
-
-    // Default price
-    return 120;
-}
