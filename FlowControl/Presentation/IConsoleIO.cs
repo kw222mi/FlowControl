@@ -1,27 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlowControl.Presentation
-
 {
+    /// <summary>
+    /// Defines an abstraction layer for all console input and output operations.
+    /// 
+    /// By using this interface, the application logic can remain independent
+    /// of direct console access, which improves testability and separation of concerns.
+    /// </summary>
     public interface IConsoleIO
     {
-        // Write without newline
+        /// <summary>
+        /// Writes text to the console without appending a newline.
+        /// </summary>
+        /// <param name="text">The text to display.</param>
         void Write(string text);
 
-        // Write with newline (default: just newline)
+        /// <summary>
+        /// Writes text to the console followed by a newline.
+        /// If no text is provided, it simply writes an empty line.
+        /// </summary>
+        /// <param name="text">The text to display (optional).</param>
         void WriteLine(string text = "");
 
-        // Read full line (never returns null)
+        /// <summary>
+        /// Reads a full line of text from the console.
+        /// The return value is never null; an empty string is returned instead.
+        /// </summary>
+        /// <returns>User-entered text as a string.</returns>
         string ReadLine();
 
-        // Wait for a key press (no echo)
+        /// <summary>
+        /// Waits for a single key press from the user without echoing it to the console.
+        /// Commonly used to pause execution between menu screens.
+        /// </summary>
         void ReadKey();
 
-        // Clear screen
+        /// <summary>
+        /// Clears all text from the console window.
+        /// </summary>
         void Clear();
     }
 }
