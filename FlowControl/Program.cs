@@ -33,7 +33,7 @@ while (running)
 
         case "4":
             Console.WriteLine("Du valde: Det tredje ordet");
-            // TODO: anropa metoden för menyval 4
+            TheThirdWord();
             break;
 
         case "0":
@@ -121,6 +121,20 @@ static void RepeatText()
     
     }
     Console.WriteLine();
+
+}
+
+static void TheThirdWord() {
+    Console.WriteLine("Skriv en mening (minst tre ord): ");
+    string input = (Console.ReadLine() ?? string.Empty).Trim();
+    var words = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+    if (words.Length < 3)
+    {
+        Console.WriteLine("Meningen var för kort, prova igen: ");
+    }
+
+    else { Console.WriteLine(words[2]); }
+
 
 }
 static int ReadInt(string prompt, int? min = null, int? max = null)
